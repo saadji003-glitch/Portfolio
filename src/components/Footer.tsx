@@ -82,9 +82,6 @@ export const Footer: React.FC = () => {
         {/* Bottom Copyright */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-500 text-[11px] font-mono">
           <p>© {new Date().getFullYear()} {personalDetails.name}. All rights reserved.</p>
-          <p className="flex items-center gap-1">
-            <span>Built with React, Motion & Tailwind for CSE AIML Portfolio</span>
-          </p>
         </div>
       </div>
     </footer>

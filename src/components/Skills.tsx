@@ -87,34 +87,14 @@ export const Skills: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {cat.skills.map((skill) => (
-                    <div key={skill.name} className="space-y-1.5">
-                      <div className="flex items-center justify-between text-xs font-medium">
-                        <span className="text-slate-200 flex items-center gap-1.5">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400" />
-                          {skill.name}
-                        </span>
-                        <div className="flex items-center gap-2">
-                          {skill.badge && (
-                            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950/80 text-cyan-300 border border-cyan-800/50">
-                              {skill.badge}
-                            </span>
-                          )}
-                          <span className="text-cyan-400 font-mono font-bold">{skill.level}%</span>
-                        </div>
-                      </div>
-
-                      {/* Progress Bar */}
-                      <div className="w-full h-2 bg-slate-950 rounded-full overflow-hidden p-0.5 border border-slate-800">
-                        <motion.div
-                          initial={{ width: 0 }}
-                          whileInView={{ width: `${skill.level}%` }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 1, ease: 'easeOut' }}
-                          className="h-full bg-gradient-to-r from-cyan-500 via-teal-400 to-blue-500 rounded-full"
-                        />
-                      </div>
+                    <div
+                      key={skill.name}
+                      className="p-3.5 rounded-2xl bg-slate-950/70 border border-slate-800 text-slate-200 text-xs sm:text-sm font-medium flex items-center gap-2.5 hover:border-cyan-500/30 transition-colors"
+                    >
+                      <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
+                      <span>{skill.name}</span>
                     </div>
                   ))}
                 </div>

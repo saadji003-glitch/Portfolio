@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { GraduationCap, BookOpen, Award, CheckCircle2, MapPin, Calendar, Sparkles } from 'lucide-react';
+import { GraduationCap, MapPin, Calendar, Sparkles } from 'lucide-react';
 import { personalDetails } from '../data/portfolioData';
 
 export const Education: React.FC = () => {
@@ -32,7 +32,7 @@ export const Education: React.FC = () => {
             {/* Ambient Background Accent */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
 
-            <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 pb-6 border-b border-slate-800">
+            <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
               <div className="space-y-2">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-mono">
                   <Sparkles className="w-3 h-3 text-cyan-400" />
@@ -42,7 +42,7 @@ export const Education: React.FC = () => {
                   Computer Science & Engineering (AI & ML)
                 </h3>
                 <p className="text-base text-cyan-400 font-medium">
-                  P. R. Pote Patil College of Engineering and Management, Amravati
+                  {personalDetails.college}
                 </p>
               </div>
 
@@ -55,45 +55,6 @@ export const Education: React.FC = () => {
                   <MapPin className="w-3.5 h-3.5 text-cyan-400" />
                   <span>Amravati, Maharashtra</span>
                 </span>
-              </div>
-            </div>
-
-            {/* Program Highlights */}
-            <div className="mt-6 space-y-6">
-              <div>
-                <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-2">
-                  <BookOpen className="w-4 h-4 text-cyan-400" />
-                  <span>Core Academic Curriculum & Specializations</span>
-                </h4>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
-                  {[
-                    'Artificial Intelligence',
-                    'Machine Learning',
-                    'Data Structures & Algorithms',
-                    'Object-Oriented Programming',
-                    'C & Java Development',
-                    'Database Management (DBMS)',
-                    'Prompt Engineering',
-                    'Full-Stack Architecture',
-                    'Software Engineering',
-                  ].map((course, idx) => (
-                    <div
-                      key={idx}
-                      className="p-3 rounded-xl bg-slate-950/70 border border-slate-800 text-slate-200 font-medium flex items-center gap-2"
-                    >
-                      <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-                      <span>{course}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Institutional Values */}
-              <div className="p-4 rounded-2xl bg-cyan-950/20 border border-cyan-800/40 text-xs text-slate-300 flex items-center gap-3">
-                <Award className="w-6 h-6 text-cyan-400 shrink-0" />
-                <p>
-                  Combining theoretical rigor in computer science with practical hands-on virtual internships recognized by AICTE, EduSkills, and Wadhwani Foundation.
-                </p>
               </div>
             </div>
           </motion.div>

@@ -4,18 +4,12 @@ import { Quote as QuoteIcon, Sparkles, Shuffle, Terminal, Heart } from 'lucide-r
 import { quotesList } from '../data/portfolioData';
 
 export const QuotesMarquee: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [activeQuoteIndex, setActiveQuoteIndex] = useState<number>(0);
 
-  const filteredQuotes =
-    selectedCategory === 'all'
-      ? quotesList
-      : quotesList.filter((q) => q.category === selectedCategory);
-
-  const currentQuote = filteredQuotes[activeQuoteIndex % filteredQuotes.length] || quotesList[0];
+  const currentQuote = quotesList[activeQuoteIndex % quotesList.length] || quotesList[0];
 
   const handleNextQuote = () => {
-    setActiveQuoteIndex((prev) => (prev + 1) % filteredQuotes.length);
+    setActiveQuoteIndex((prev) => (prev + 1) % quotesList.length);
   };
 
   return (
@@ -33,31 +27,6 @@ export const QuotesMarquee: React.FC = () => {
           <p className="mt-3 text-slate-400 text-sm sm:text-base">
             Guiding philosophies shaping my perspective as a CSE AIML developer.
           </p>
-        </div>
-
-        {/* Category Tabs */}
-        <div className="flex justify-center gap-2 mb-8">
-          {[
-            { id: 'all', label: 'All Quotes' },
-            { id: 'ai', label: 'Artificial Intelligence' },
-            { id: 'tech', label: 'Computer Science' },
-            { id: 'mindset', label: 'Engineering Philosophy' },
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => {
-                setSelectedCategory(tab.id);
-                setActiveQuoteIndex(0);
-              }}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer ${
-                selectedCategory === tab.id
-                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/50 font-bold'
-                  : 'bg-slate-900 text-slate-400 border border-slate-800 hover:text-slate-200'
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
         </div>
 
         {/* Featured Large Quote Display */}
@@ -89,7 +58,7 @@ export const QuotesMarquee: React.FC = () => {
 
             <div className="mt-8 pt-6 border-t border-slate-800 flex items-center justify-between">
               <span className="text-xs text-slate-500 font-mono">
-                Quote {activeQuoteIndex + 1} of {filteredQuotes.length}
+                Quote {activeQuoteIndex + 1} of {quotesList.length}
               </span>
 
               <button
