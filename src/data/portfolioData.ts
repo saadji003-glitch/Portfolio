@@ -15,7 +15,7 @@ export const personalDetails = {
   linkedin: 'https://www.linkedin.com/in/saad-khan-79653a37b',
   instagram: 'https://www.instagram.com/saadkn._?igsi=MXF5dTJyb2V0M2djMw==',
   instagramHandle: '@saadkn._',
-  photoUrl: '/profile.jpg',
+  photoUrl: '/profile.svg',
   aboutBio: `I am an ambitious Computer Science student specializing in Artificial Intelligence and Machine Learning (CSE AIML) at P.R. Pote Patil College of Engineering and Management, Amravati. Driven by a deep curiosity for intelligent systems and modern software craftsmanship, I build software solutions ranging from core C language utilities to Java Full-Stack web platforms and advanced AI prompt engineering workflows.`,
   shortTagline: 'Crafting intelligent algorithms, elegant full-stack solutions, and high-impact AI prompt engineering.',
 };

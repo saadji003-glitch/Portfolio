@@ -14,6 +14,7 @@ import {
   Quote as QuoteIcon,
 } from 'lucide-react';
 import { personalDetails } from '../data/portfolioData';
+import { useProfilePhoto } from '../context/PhotoContext';
 
 const navLinks = [
   { name: 'About', href: '#about', icon: User },
@@ -26,6 +27,8 @@ const navLinks = [
 ];
 
 export const Navbar: React.FC = () => {
+  const { photoSrc, hasPhoto } = useProfilePhoto();
+  const [photoError, setPhotoError] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
@@ -65,14 +68,25 @@ export const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Brand Logo */}
         <a href="#hero" className="flex items-center gap-3 group">
-          <div className="relative w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 via-blue-600 to-indigo-600 p-[1px] shadow-lg shadow-cyan-500/20 group-hover:shadow-cyan-500/40 transition-all">
-            <div className="w-full h-full bg-slate-950 rounded-[11px] flex items-center justify-center font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 font-mono text-sm">
-              SK
-            </div>
+          <div className="relative w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 via-blue-600 to-indigo-600 p-[1px] shadow-lg shadow-cyan-500/20 group-hover:shadow-cyan-500/40 transition-all overflow-hidden">
+            {photoSrc && !photoError ? (
+              <img
+                src={photoSrc}
+                alt={personalDetails.name}
+                referrerPolicy="no-referrer"
+                onError={() => setPhotoError(true)}
+                className="w-full h-full object-cover rounded-[11px]"
+              />
+            ) : (
+              <div className="w-full h-full bg-slate-950 rounded-[11px] flex items-center justify-center font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 font-mono text-sm">
+                SK
+              </div>
+            )}
           </div>
           <div className="flex flex-col">
-            <span className="text-base font-bold text-white tracking-tight group-hover:text-cyan-400 transition-colors">
-              Saad Khan
+            <span className="text-base font-bold text-white tracking-tight group-hover:text-cyan-400 transition-colors flex items-center gap-1.5">
+              <span>Saad Khan</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse hidden sm:inline-block" />
             </span>
             <span className="text-[10px] text-cyan-400/90 font-mono tracking-wider uppercase">
               CSE AIML • P.R. Pote Patil

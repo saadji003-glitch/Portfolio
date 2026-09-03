@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { motion } from 'motion/react';
+import React, { useState, useRef } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import {
   GraduationCap,
   ArrowRight,
@@ -11,25 +11,23 @@ import {
   Upload,
   User,
   CheckCircle2,
+  Maximize2,
+  Download,
+  RotateCcw,
+  X,
+  Sparkles,
 } from 'lucide-react';
 import { personalDetails, quotesList } from '../data/portfolioData';
+import { useProfilePhoto } from '../context/PhotoContext';
 
 export const Hero: React.FC = () => {
   const featuredQuote = quotesList[0];
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-
-  const [photoSrc, setPhotoSrc] = useState<string>(() => {
-    try {
-      const cached = localStorage.getItem('saad_portfolio_photo');
-      if (cached) return cached;
-    } catch {
-      // ignore
-    }
-    return personalDetails.photoUrl || '/profile.jpg';
-  });
+  const { photoSrc, setPhoto, resetPhoto, isCustomPhoto } = useProfilePhoto();
 
   const [hasImageError, setHasImageError] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
   const processFile = (file: File) => {
     if (!file.type.startsWith('image/')) return;
@@ -37,13 +35,8 @@ export const Hero: React.FC = () => {
     reader.onload = (e) => {
       const result = e.target?.result as string;
       if (result) {
-        setPhotoSrc(result);
+        setPhoto(result);
         setHasImageError(false);
-        try {
-          localStorage.setItem('saad_portfolio_photo', result);
-        } catch {
-          // ignore storage error
-        }
       }
     };
     reader.readAsDataURL(file);
@@ -63,6 +56,16 @@ export const Hero: React.FC = () => {
     if (file) {
       processFile(file);
     }
+  };
+
+  const handleDownloadPhoto = () => {
+    if (!photoSrc) return;
+    const a = document.createElement('a');
+    a.href = photoSrc;
+    a.download = 'saad-khan-profile.png';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   };
 
   return (
@@ -212,15 +215,39 @@ export const Hero: React.FC = () => {
 
               {/* Photo Display Card */}
               <div className="relative aspect-[4/5] w-full rounded-2xl overflow-hidden bg-slate-950 border border-slate-800/90 flex flex-col items-center justify-center">
-                {!hasImageError ? (
-                  <img
-                    src={photoSrc}
-                    alt={personalDetails.name}
-                    referrerPolicy="no-referrer"
-                    onError={() => setHasImageError(true)}
-                    className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
-                    id="hero-profile-photo-image"
-                  />
+                {photoSrc && !hasImageError ? (
+                  <>
+                    <img
+                      src={photoSrc}
+                      alt={personalDetails.name}
+                      referrerPolicy="no-referrer"
+                      onError={() => setHasImageError(true)}
+                      onClick={() => setIsLightboxOpen(true)}
+                      className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02] cursor-pointer"
+                      id="hero-profile-photo-image"
+                      title="Click to view full portrait"
+                    />
+
+                    {/* Quick Floating Actions (Top Left) */}
+                    <div className="absolute top-4 left-4 z-20 flex items-center gap-1.5 opacity-90 group-hover:opacity-100 transition-opacity">
+                      <button
+                        type="button"
+                        onClick={() => setIsLightboxOpen(true)}
+                        className="p-1.5 rounded-lg bg-slate-950/80 hover:bg-slate-900 border border-slate-700/80 text-slate-300 hover:text-cyan-400 backdrop-blur-md transition-all cursor-pointer shadow-md"
+                        title="View Full Size"
+                      >
+                        <Maximize2 className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleDownloadPhoto}
+                        className="p-1.5 rounded-lg bg-slate-950/80 hover:bg-slate-900 border border-slate-700/80 text-slate-300 hover:text-cyan-400 backdrop-blur-md transition-all cursor-pointer shadow-md"
+                        title="Download Photo"
+                      >
+                        <Download className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </>
                 ) : (
                   <div
                     onClick={() => fileInputRef.current?.click()}
@@ -241,7 +268,7 @@ export const Hero: React.FC = () => {
                 )}
 
                 {/* Subtle bottom gradient label */}
-                <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent z-10 flex items-center justify-between">
+                <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent z-10 flex items-center justify-between">
                   <div>
                     <h3 className="text-white font-bold text-base leading-tight">
                       {personalDetails.name}
@@ -250,20 +277,33 @@ export const Hero: React.FC = () => {
                       CSE AIML Student
                     </p>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => fileInputRef.current?.click()}
-                    className="p-2 rounded-xl bg-slate-900/90 border border-slate-700/80 text-slate-300 hover:text-cyan-400 hover:border-cyan-500/50 transition-all shadow-md cursor-pointer"
-                    title="Upload / Change original photo"
-                    aria-label="Upload original photo"
-                    id="hero-photo-upload-trigger"
-                  >
-                    <Camera className="w-4 h-4" />
-                  </button>
+                  <div className="flex items-center gap-1.5">
+                    {isCustomPhoto && (
+                      <button
+                        type="button"
+                        onClick={resetPhoto}
+                        className="p-2 rounded-xl bg-slate-900/90 border border-slate-700/80 text-slate-400 hover:text-red-400 hover:border-red-500/50 transition-all shadow-md cursor-pointer"
+                        title="Reset Photo"
+                        aria-label="Reset Photo"
+                      >
+                        <RotateCcw className="w-4 h-4" />
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => fileInputRef.current?.click()}
+                      className="p-2 rounded-xl bg-slate-900/90 border border-slate-700/80 text-slate-300 hover:text-cyan-400 hover:border-cyan-500/50 transition-all shadow-md cursor-pointer"
+                      title="Upload / Change original photo"
+                      aria-label="Upload original photo"
+                      id="hero-photo-upload-trigger"
+                    >
+                      <Camera className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
               </div>
 
-              {/* Hidden native file input for zero-loss direct photo selection */}
+              {/* Hidden native file input for direct photo selection */}
               <input
                 ref={fileInputRef}
                 type="file"
@@ -274,11 +314,67 @@ export const Hero: React.FC = () => {
             </div>
             <p className="text-[11px] text-slate-500 font-mono mt-2.5 flex items-center gap-1.5">
               <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400/80" />
-              <span>100% Original Photo &bull; Zero AI filters or alteration</span>
+              <span>100% Original Photo &bull; Active in Portfolio</span>
             </p>
           </motion.div>
         </div>
       </div>
+
+      {/* Lightbox Modal for Full View */}
+      <AnimatePresence>
+        {isLightboxOpen && photoSrc && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md"
+            onClick={() => setIsLightboxOpen(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative max-w-lg w-full bg-slate-900 border border-slate-700 rounded-3xl p-6 shadow-2xl space-y-4"
+            >
+              <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse" />
+                  <h3 className="text-white font-bold text-base">{personalDetails.name}</h3>
+                </div>
+                <button
+                  onClick={() => setIsLightboxOpen(false)}
+                  className="p-1.5 rounded-xl bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition-colors cursor-pointer"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="relative aspect-[4/5] w-full rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 shadow-inner">
+                <img
+                  src={photoSrc}
+                  alt={personalDetails.name}
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-contain"
+                />
+              </div>
+
+              <div className="flex items-center justify-between pt-2">
+                <div className="text-xs text-slate-400">
+                  <p className="font-semibold text-slate-200">{personalDetails.degree}</p>
+                  <p className="text-[11px] text-cyan-400 font-mono">{personalDetails.collegeShort}</p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={handleDownloadPhoto}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 text-xs font-semibold transition-all cursor-pointer"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    <span>Download</span>
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };

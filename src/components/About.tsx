@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { User, GraduationCap, MapPin, Mail, BookOpen, Cpu, Code2, Sparkles, CheckCircle2 } from 'lucide-react';
 import { personalDetails } from '../data/portfolioData';
+import { useProfilePhoto } from '../context/PhotoContext';
 
 export const About: React.FC = () => {
+  const { photoSrc } = useProfilePhoto();
+  const [photoError, setPhotoError] = useState(false);
+
   return (
     <section id="about" className="relative py-20 bg-slate-950/60 border-t border-slate-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -80,6 +84,29 @@ export const About: React.FC = () => {
             viewport={{ once: true }}
             className="lg:col-span-5 space-y-6"
           >
+            {/* Scholar Profile Card */}
+            {photoSrc && !photoError && (
+              <div className="bg-slate-900/80 border border-slate-800 hover:border-cyan-500/40 rounded-3xl p-5 shadow-xl flex items-center gap-4 transition-all">
+                <div className="relative w-16 h-16 rounded-2xl overflow-hidden border border-cyan-500/40 shrink-0 shadow-md bg-slate-950">
+                  <img
+                    src={photoSrc}
+                    alt={personalDetails.name}
+                    referrerPolicy="no-referrer"
+                    onError={() => setPhotoError(true)}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="min-w-0">
+                  <span className="inline-flex items-center gap-1 text-[11px] font-mono text-cyan-400">
+                    <Sparkles className="w-3 h-3" />
+                    <span>Original Profile Photo</span>
+                  </span>
+                  <h4 className="text-sm font-bold text-white truncate">{personalDetails.name}</h4>
+                  <p className="text-xs text-slate-400 truncate">{personalDetails.degree}</p>
+                </div>
+              </div>
+            )}
+
             {/* Education Summary Card */}
             <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 space-y-4 shadow-xl">
               <div className="flex items-center gap-3">
