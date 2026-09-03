@@ -4,6 +4,7 @@ import {
   Mail,
   Linkedin,
   Instagram,
+  Github,
   Copy,
   Check,
   Send,
@@ -103,13 +104,14 @@ export const Contact: React.FC = () => {
             </div>
 
             {/* Social Links Grid */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {/* LinkedIn */}
               <a
                 href={personalDetails.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group bg-slate-900/80 border border-slate-800 hover:border-blue-500/50 rounded-3xl p-5 flex flex-col justify-between shadow-xl transition-all"
+                id="contact-linkedin-card"
               >
                 <div className="flex items-center justify-between mb-4">
                   <div className="p-2.5 rounded-xl bg-blue-500/10 border border-blue-500/30 text-blue-400">
@@ -119,7 +121,7 @@ export const Contact: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-white">LinkedIn</h4>
-                  <p className="text-[11px] text-slate-400 font-mono mt-0.5">/in/saad-khan-79653a37b</p>
+                  <p className="text-[11px] text-slate-400 font-mono mt-0.5">/in/saad-khan</p>
                 </div>
               </a>
 
@@ -129,6 +131,7 @@ export const Contact: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group bg-slate-900/80 border border-slate-800 hover:border-pink-500/50 rounded-3xl p-5 flex flex-col justify-between shadow-xl transition-all"
+                id="contact-instagram-card"
               >
                 <div className="flex items-center justify-between mb-4">
                   <div className="p-2.5 rounded-xl bg-pink-500/10 border border-pink-500/30 text-pink-400">
@@ -138,7 +141,27 @@ export const Contact: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-white">Instagram</h4>
-                  <p className="text-[11px] text-slate-400 font-mono mt-0.5">@instagram</p>
+                  <p className="text-[11px] text-slate-400 font-mono mt-0.5">{personalDetails.instagramHandle || '@saadkn._'}</p>
+                </div>
+              </a>
+
+              {/* GitHub */}
+              <a
+                href={personalDetails.github || 'https://github.com/saadji003-glitch'}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group bg-slate-900/80 border border-slate-800 hover:border-cyan-500/50 rounded-3xl p-5 flex flex-col justify-between shadow-xl transition-all"
+                id="contact-github-card"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <div className="p-2.5 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400">
+                    <Github className="w-5 h-5" />
+                  </div>
+                  <ExternalLink className="w-4 h-4 text-slate-500 group-hover:text-cyan-400 transition-colors" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-white">GitHub</h4>
+                  <p className="text-[11px] text-slate-400 font-mono mt-0.5">{personalDetails.githubHandle || '@saadji003-glitch'}</p>
                 </div>
               </a>
             </div>

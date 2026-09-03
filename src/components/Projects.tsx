@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { FolderCode, Terminal, Sparkles, CheckCircle2, Code2, Cpu } from 'lucide-react';
-import { projectsList } from '../data/portfolioData';
+import { FolderCode, Terminal, Sparkles, CheckCircle2, Code2, Cpu, Github, ExternalLink } from 'lucide-react';
+import { projectsList, personalDetails } from '../data/portfolioData';
 import { UnitConverterWidget } from './UnitConverterWidget';
 
 export const Projects: React.FC = () => {
@@ -51,6 +51,20 @@ export const Projects: React.FC = () => {
                 <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-3xl">
                   {projectsList[0].longDescription}
                 </p>
+              </div>
+
+              <div className="flex items-center gap-3 shrink-0">
+                <a
+                  href={personalDetails.github || 'https://github.com/saadji003-glitch'}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold bg-slate-950 hover:bg-slate-800 text-slate-200 border border-slate-700 hover:border-cyan-500/50 transition-all cursor-pointer group"
+                  id="project-github-link"
+                >
+                  <Github className="w-4 h-4 text-slate-300 group-hover:text-cyan-400 transition-colors" />
+                  <span>View on GitHub</span>
+                  <ExternalLink className="w-3.5 h-3.5 text-slate-500 group-hover:text-cyan-400 transition-colors" />
+                </a>
               </div>
             </div>
 
