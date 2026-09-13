@@ -25,7 +25,7 @@ export const PhotoProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     } catch {
       // ignore
     }
-    return personalDetails.photoUrl || '/profile.jpg';
+    return personalDetails.photoUrl || '/profile.png';
   });
 
   const [hasError, setHasError] = useState(false);
@@ -37,7 +37,7 @@ export const PhotoProvider: React.FC<{ children: React.ReactNode }> = ({ childre
           setPhotoSrcState(e.newValue);
           setHasError(false);
         } else {
-          setPhotoSrcState(personalDetails.photoUrl || '/profile.jpg');
+          setPhotoSrcState(personalDetails.photoUrl || '/profile.png');
         }
       }
     };
@@ -48,7 +48,7 @@ export const PhotoProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         setPhotoSrcState(customEvent.detail);
         setHasError(false);
       } else {
-        setPhotoSrcState(personalDetails.photoUrl || '/profile.jpg');
+        setPhotoSrcState(personalDetails.photoUrl || '/profile.png');
       }
     };
 
@@ -78,7 +78,7 @@ export const PhotoProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     } catch {
       // Ignore storage error
     }
-    const fallback = personalDetails.photoUrl || '/profile.jpg';
+    const fallback = personalDetails.photoUrl || '/profile.png';
     setPhotoSrcState(fallback);
     window.dispatchEvent(new CustomEvent('saad_photo_change', { detail: null }));
   };

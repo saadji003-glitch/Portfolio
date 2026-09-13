@@ -13,6 +13,7 @@ export interface Certificate {
   summary: string;
   skillsLearned: string[];
   pdfName?: string;
+  pdfUrl?: string;
 }
 
 export interface Project {

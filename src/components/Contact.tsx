@@ -14,11 +14,8 @@ import {
   ExternalLink
 } from 'lucide-react';
 import { personalDetails } from '../data/portfolioData';
-import { useProfilePhoto } from '../context/PhotoContext';
 
 export const Contact: React.FC = () => {
-  const { photoSrc } = useProfilePhoto();
-  const [photoError, setPhotoError] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formData, setFormData] = useState({
@@ -73,27 +70,21 @@ export const Contact: React.FC = () => {
           {/* Left Column: Direct Social Cards & Contact Details */}
           <div className="lg:col-span-5 space-y-6">
             {/* Scholar Profile Quick Card */}
-            {photoSrc && !photoError && (
-              <div className="bg-slate-900/80 border border-slate-800 hover:border-cyan-500/40 rounded-3xl p-5 shadow-xl flex items-center gap-4 transition-all">
-                <div className="relative w-14 h-14 rounded-2xl overflow-hidden border border-cyan-500/40 shrink-0 shadow-md bg-slate-950">
-                  <img
-                    src={photoSrc}
-                    alt={personalDetails.name}
-                    referrerPolicy="no-referrer"
-                    onError={() => setPhotoError(true)}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="min-w-0">
-                  <span className="inline-flex items-center gap-1 text-[11px] font-mono text-cyan-400">
-                    <Sparkles className="w-3 h-3" />
-                    <span>Direct Communication</span>
-                  </span>
-                  <h4 className="text-sm font-bold text-white truncate">{personalDetails.name}</h4>
-                  <p className="text-xs text-slate-400 truncate">{personalDetails.collegeShort}</p>
-                </div>
+            <div className="bg-slate-900/80 border border-slate-800 hover:border-cyan-500/40 rounded-3xl p-5 shadow-xl flex items-center gap-4 transition-all">
+              <div className="relative w-14 h-14 rounded-2xl overflow-hidden border border-cyan-500/40 shrink-0 shadow-md bg-slate-950 flex items-center justify-center">
+                <span className="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 font-mono text-base">
+                  SK
+                </span>
               </div>
-            )}
+              <div className="min-w-0">
+                <span className="inline-flex items-center gap-1 text-[11px] font-mono text-cyan-400">
+                  <Sparkles className="w-3 h-3" />
+                  <span>Direct Communication</span>
+                </span>
+                <h4 className="text-sm font-bold text-white truncate">{personalDetails.name}</h4>
+                <p className="text-xs text-slate-400 truncate">{personalDetails.collegeShort}</p>
+              </div>
+            </div>
 
             {/* Email Card with Copy Button */}
             <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 space-y-4 shadow-xl">
